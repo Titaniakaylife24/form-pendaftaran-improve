@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Pendaftaran</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <form id="registrationForm" onsubmit="return simpanData()">
+        <h2>Formulir Pendaftaran</h2>
+
+        <!-- Nama -->
+        <div class="form-group">
+            <label for="nama">Nama Lengkap</label>
+            <span class="separator">:</span>
+            <div>
+                <input type="text" id="nama" name="nama" required>
+                <small id="errorNama" class="error"></small>
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+            <label for="email">Email</label>
+            <span class="separator">:</span>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <!-- No HP -->
+        <div class="form-group">
+            <label for="hp">No HP</label>
+            <span class="separator">:</span>
+            <input type="text" id="hp" name="hp" required>
+        </div>
+
+        <!-- Alamat -->
+        <div class="form-group">
+            <label for="alamat">Alamat</label>
+            <span class="separator">:</span>
+            <input type="text" id="alamat" name="alamat" required>
+        </div>
+
+        <!-- Tempat Lahir -->
+        <div class="form-group">
+            <label for="tptLahir">Tempat Lahir</label>
+            <span class="separator">:</span>
+            <input type="text" id="tptLahir" name="tptLahir" required>
+        </div>
+
+        <!-- Tanggal Lahir -->
+        <div class="form-group">
+            <label for="tglLahir">Tanggal Lahir</label>
+            <span class="separator">:</span>
+            <input type="date" id="tglLahir" name="tglLahir" required>
+        </div>
+
+        <!-- Jenis Kelamin -->
+        <div class="form-group">
+            <label>Jenis Kelamin</label>
+            <span class="separator">:</span>
+            <div class="radio-group">
+                <label><input type="radio" name="jk" value="Laki-laki" required> Laki-laki</label>
+                <label><input type="radio" name="jk" value="Perempuan"> Perempuan</label>
+            </div>
+        </div>
+
+        <input type="submit" value="Daftar">
+
+        <!-- Pesan sukses -->
+        <p id="pesanSukses" class="success"></p>
+    </form>
+
+    <script>
+        // VALIDASI REAL-TIME NAMA
+        document.getElementById("nama").addEventListener("input", function() {
+            let pola = /^[a-zA-Z' ]+$/;
+            let error = document.getElementById("errorNama");
+
+            if (!pola.test(this.value)) {
+                error.textContent = "Nama hanya boleh huruf dan spasi";
+            } else {
+                error.textContent = "";
+            }
+        });
+
+        // FUNGSI SIMPAN DATA
+        function simpanData() {
+            let nama = document.getElementById("nama").value;
+            let email = document.getElementById("email").value;
+            let hp = document.getElementById("hp").value;
+            let alamat = document.getElementById("alamat").value;
+            let tptLahir = document.getElementById("tptLahir").value;
+            let tglLahir = document.getElementById("tglLahir").value;
+            let jk = document.querySelector('input[name="jk"]:checked');
+
+            // Validasi nama
+            let pola = /^[a-zA-Z' ]+$/;
+            if (!pola.test(nama)) {
+                alert("Nama tidak valid");
+                return false;
+            }
+
+            // Ambil value jenis kelamin
+            jk = jk ? jk.value : "";
+
+            // Object data
+            let dataUser = {
+                nama: nama,
+                email: email,
+                hp: hp,
+                alamat: alamat,
+                tempatLahir: tptLahir,
+                tanggalLahir: tglLahir,
+                jenisKelamin: jk
+            };
+
+            // Simpan ke LocalStorage
+            localStorage.setItem("dataPendaftaran", JSON.stringify(dataUser));
+
+            // Pesan sukses
+            document.getElementById("pesanSukses").textContent =
+                "Pendaftaran berhasil disimpan!";
+
+            // Reset form
+            document.getElementById("registrationForm").reset();
+
+            return false; // agar tidak reload
+        }
+    </script>
+</body>
+</html>
