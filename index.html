@@ -119,9 +119,7 @@
             // Simpan ke LocalStorage
             localStorage.setItem("dataPendaftaran", JSON.stringify(dataUser));
 
-            // Pesan sukses
-            document.getElementById("pesanSukses").textContent =
-                "Pendaftaran berhasil disimpan!";
+            alert("Pendaftaran berhasil disimpan!");
 
             // Reset form
             document.getElementById("registrationForm").reset();
